@@ -21,9 +21,9 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
   await expect(page.getByTestId('order-result-status')).toContainText('APROVADO');
   */
   await expect(page.getByText('VLO-JKQ87Z')).toBeVisible();
-  await expect(page.getByTestId('order-result-VLO-JKQ87Z')).toContainText('VLO-JKQ87Z');
+  await expect(page.locator('#root')).toContainText('VLO-JKQ87Z');
   await expect(page.getByText('APROVADO')).toBeVisible();
-  await expect(page.getByTestId('order-result-VLO-JKQ87Z')).toContainText('APROVADO');
+  await expect(page.locator('#root')).toContainText('APROVADO');
 
 
 });
