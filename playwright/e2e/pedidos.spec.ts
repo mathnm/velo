@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test';
 
 test('deve consultar um pedido aprovado', async ({ page }) => {
+
+
+  //Test Data
+  const order = 'VLO-JKQ87Z';
   
   ///AAA - Arrange, Act, Assert
   //Arrange
@@ -10,18 +14,21 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
   await expect(page.getByRole('heading')).toContainText('Consultar Pedido');
   
   //Act
-  await page.getByRole('textbox', { name: 'Número do Pedido' }).fill('VLO-JKQ87Z');
+  await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order);
   await page.getByRole('button', { name: 'Buscar Pedido' }).click();
 
   //Assert
-  /*
-  await expect(page.getByTestId('order-result-id')).toBeVisible({timeout: 30000});
-  await expect(page.getByTestId('order-result-id')).toContainText('VLO-JKQ87Z');
-  await expect(page.getByTestId('order-result-status')).toBeVisible();
-  await expect(page.getByTestId('order-result-status')).toContainText('APROVADO');
-  */
-  await expect(page.getByText('VLO-JKQ87Z')).toBeVisible();
-  await expect(page.locator('#root')).toContainText('VLO-JKQ87Z');
+
+  //const orderCode = page.locator('//p[text()="Pedido"]/..//p[text()="VLO-JKQ87Z"]'); 
+  ////xpath para verificar se o texto é "Pedido" e "VLO-JKQ87Z" (pedido e código do pedido)
+  //await expect(orderCode).toBeVisible();
+
+  const containerPedido = page.getByRole('paragraph')
+    .filter({ hasText: /^Pedido$/ }) //expressão regular para verificar se o texto é "Pedido"
+    .locator('..');
+
+  await expect(containerPedido).toContainText(order);  
+  
   await expect(page.getByText('APROVADO')).toBeVisible();
   await expect(page.locator('#root')).toContainText('APROVADO');
 
